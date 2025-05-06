@@ -35,7 +35,11 @@ class AuthController extends Controller
             'password' => app('hash')->make($request->password),
         ]);
 
-        $token = JWTAuth::fromUser($user);
+        try {
+            $token = JWTAuth::fromUser($user);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'ไม่สามารถสร้าง token ได้', 'message' => $e->getMessage()], 500);
+        }
 
         return response()->json([
             'message' => 'สมัครสมาชิกสำเร็จ',
