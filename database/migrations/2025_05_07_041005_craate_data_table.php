@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->date('date');
+            $table->string('national_id', 13)->unique(); // จำกัดความยาว และต้องไม่ซ้ำ
+            $table->string('bank_account_number', 20)->nullable(); //เลขบัญชี
+            $table->string('bank_name')->nullable(); //ชื่อธนาคาร
+            $table->date('date'); //วันที่เงินเดือนออก
             $table->unsignedTinyInteger('status_id')->default(1); //primarykey สำหรับเชื่อมกับตำแหน่งงาน
             $table->unsignedTinyInteger('leave_days')->default(0); //จำนวนวันหยุด
             $table->decimal('net_salary', 10, 2)->default(0.00); //เงินเดือน
