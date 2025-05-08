@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('tb_users', function (Blueprint $table) {
+        $table->id();
+        $table->string('tb_firstname');
+        $table->string('tb_lastname');
+        $table->string('tb_national_id', 13)->unique(); // จำกัดความยาว และต้องไม่ซ้ำ
+        $table->string('tb_bank_account_number', 20)->nullable(); //เลขบัญชี
+        $table->string('tb_bank_name')->nullable(); //ชื่อธนาคาร
+        $table->string('tb_job_group');        // กลุ่มงาน  
+        $table->string('tb_department');      // ฝ่าย/แผนก  
+        $table->string('tb_division');        // หน่วยงาน  
+        $table->string('tb_position');        // ตำแหน่ง  
+        $table->string('tb_level');           // ระดับ  
+        $table->string('tb_personnel_type'); // ประเภทบุคคลากร
+        $table->unsignedTinyInteger('tb_status')->comment('1 = ทำงาน, 0 = ไม่ทำงาน'); //สถานะทำงาน
+        $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        //
+    }
+};

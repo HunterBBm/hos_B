@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_history', function (Blueprint $table) {
+        Schema::create('data_history', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('national_id', 13)->unique(); // จำกัดความยาว และต้องไม่ซ้ำ
-            $table->string('bank_account_number', 20)->nullable(); //เลขบัญชี
-            $table->string('bank_name')->nullable(); //ชื่อธนาคาร
+            $table->string('name_id');
             $table->date('date'); //วันที่เงินเดือนออก
             $table->unsignedTinyInteger('status_id')->default(1); //primarykey สำหรับเชื่อมกับตำแหน่งงาน
             $table->unsignedTinyInteger('leave_days')->default(0); //จำนวนวันหยุด
@@ -46,7 +42,7 @@ return new class extends Migration
             $table->decimal('gsb_meechok', 10, 2)->default(0.00); //ออมสินมีโชค
             $table->decimal('student_loan_repayment', 10, 2)->default(0.00); //เงินกู้กยศ.
 
-            $table->decimal('gross_salary', 10, 2);  //เงินเดือนรวม
+          //  $table->decimal('gross_salary', 10, 2);  //เงินเดือนรวม
             $table->timestamps(); 
         });
     }
