@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('tb_users', function (Blueprint $table) {
         $table->id();
+        $table->string('tb_username');
+        $table->string('tb_password');
+        $table->string('tb_email')->unique();
         $table->string('tb_firstname');
         $table->string('tb_lastname');
         $table->string('tb_national_id', 13)->unique(); // จำกัดความยาว และต้องไม่ซ้ำ
@@ -24,7 +27,8 @@ return new class extends Migration
         $table->string('tb_position');        // ตำแหน่ง  
         $table->string('tb_level');           // ระดับ  
         $table->string('tb_personnel_type'); // ประเภทบุคคลากร
-        $table->unsignedTinyInteger('tb_status')->comment('1 = ทำงาน, 0 = ไม่ทำงาน'); //สถานะทำงาน
+        $table->enum('tb_status', ['0', '1'])->comment('0 = ไม่ทำงาน, 1 = ทำงาน'); //สถานะทำงาน
+        $table->enum('tb_user_role', ['1', '2', '3'])->default('1')->comment('1 = client, 2 = admin, 3 = superadmin'); // สิทธิ์ผู้ใช้
         $table->timestamps();
         });
     }

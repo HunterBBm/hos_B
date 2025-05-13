@@ -11,7 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('status_salary', function (Blueprint $table) {
+            $table->id();
+            $table->string('job_salary'); 
+            $table->string('status_salary');
+            $table->timestamps();
+        });
     }
 
     /**

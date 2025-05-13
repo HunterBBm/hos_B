@@ -19,7 +19,9 @@ $router->get('/', function () use ($router) {
 
 
 $router->post('/login', 'AuthController@login');
-$router->post('/register', 'AuthController@register');
+$router->post('/register1', 'AuthController@register');
+
+$router->post('/register', 'RegisterController@register');
 // Routes ที่ต้อง login ก่อนถึงใช้ได้
 $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('/me', 'AuthController@me');
