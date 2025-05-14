@@ -13,8 +13,8 @@ class LoginController extends Controller
     public function login(Request $request)
     {
          $credentials = [
-    'tb_email' => $request->input('tb_email'),  // ตรงนี้สำคัญ
-    'password' => $request->input('tb_password')
+    'tb_email' => $request->input('email'),  // ตรงนี้สำคัญ
+    'password' => $request->input('password')
     //  'tb_email' => 'test@example3.com',
     //     'password' => '123456as'
                 
