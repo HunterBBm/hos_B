@@ -11,18 +11,12 @@ use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\Hash;
 
-
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
     use Authenticatable, Authorizable, HasFactory;
 
     protected $table = 'tb_users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
         'tb_username',
         'tb_email',
@@ -41,16 +35,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'tb_status',
         'tb_user_role',
     ];
+
     protected $hidden = ['tb_password'];
 
-    // /**
-    //  * The attributes excluded from the model's JSON form.
-    //  *
-    //  * @var string[]
-    //  */
-    // protected $hidden = [
-    //     'password',
-    // ];
+    // ให้ JWT ใช้งาน
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -60,8 +48,39 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
+
+    // Hash password ตอนบันทึก
     public function setTbPasswordAttribute($value)
     {
-        $this->attributes['tb_password'] = Hash::make($value); // ใช้ Hash::make แทน bcrypt()
+        $this->attributes['tb_password'] = Hash::make($value);
+    }
+
+    // บอกว่า password อยู่ในฟิลด์นี้
+    public function getAuthPassword()
+    {
+        return $this->tb_password;
+    }
+
+    // บอก JWT ว่าใช้ tb_email ในการยืนยันตัวตน
+    public function getAuthIdentifierName()
+    {
+        return 'tb_email';
+    }
+
+    // เพิ่ม accessor ให้ JWT ใช้ 'email'
+    public function getEmailAttribute()
+    {
+        return $this->attributes['tb_email'];
+    }
+
+    // เพิ่ม accessor ให้ JWT ใช้ 'password'
+    public function getPasswordAttribute()
+    {
+        return $this->attributes['tb_password'];
+    }
+       // เพิ่มฟังก์ชันให้ JWT ใช้ tb_email แทน email
+    public function username()
+    {
+        return 'tb_email';  // บอกให้ JWT ใช้ tb_email แทน email
     }
 }
