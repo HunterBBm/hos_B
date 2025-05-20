@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('status_salary', function (Blueprint $table) {
             $table->id();
-            $table->string('job_salary'); 
+            $table->string('job_salary');  //ค่าตอบแทน
             $table->string('status_salary');
             $table->timestamps();
         });

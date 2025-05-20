@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('tb_users', function (Blueprint $table) {
         $table->id();
-        $table->string('tb_username');
-        $table->string('tb_password');
-        $table->string('tb_email')->unique();
-        $table->string('tb_firstname');
-        $table->string('tb_lastname');
+        $table->string('tb_username');  //ไม่น่าจะได้ใช้
+        $table->string('tb_password'); //รหัสผ่าน
+        $table->string('tb_email')->unique(); //อีเมล์
+        $table->string('tb_firstname');  //ชื่อ
+        $table->string('tb_lastname');   //นามสกุล
         $table->string('tb_national_id', 13)->unique(); // จำกัดความยาว และต้องไม่ซ้ำ
         $table->string('tb_bank_account_number', 20)->nullable(); //เลขบัญชี
         $table->string('tb_bank_name')->nullable(); //ชื่อธนาคาร

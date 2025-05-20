@@ -30,7 +30,7 @@ class RegisterController extends Controller
             'tb_position' => $request->tb_position,
             'tb_level' => $request->tb_level,
             'tb_personnel_type' => $request->tb_personnel_type,
-            'tb_status' => $request->tb_status,
+            'tb_status' => $request->input('tb_status', 1),
             'tb_user_role' => $request->input('tb_user_role', 1),
         ]);
 

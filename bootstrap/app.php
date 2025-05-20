@@ -90,6 +90,9 @@ $app->configure('auth');
 $app->middleware([
     Illuminate\Session\Middleware\StartSession::class,
 ]);
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class,
+]);
 
 
 

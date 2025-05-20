@@ -21,6 +21,10 @@ $router->get('/', function () use ($router) {
 $router->post('/login1', 'AuthController@login');
 $router->post('/register1', 'AuthController@register');
 
+$router->options('/{any:.*}', function () {
+    return response('OK', 200);
+});
+
 $router->post('/register', 'RegisterController@register');
 $router->post('/login', 'LoginController@login');
 // Routes ที่ต้อง login ก่อนถึงใช้ได้
