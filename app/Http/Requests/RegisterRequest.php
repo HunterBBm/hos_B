@@ -10,22 +10,34 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'tb_username' => 'required|string|max:255',
+            'tb_email' => 'required|email|unique:tb_users,tb_email',
+            'tb_password' => 'required|string|min:6',
+            'tb_firstname' => 'required|string',
+            'tb_lastname' => 'required|string',
+            'tb_national_id' => 'required|digits:13|unique:tb_users,tb_national_id',
+            'tb_bank_account_number' => 'required|string',
+            'tb_bank_name' => 'required|string',  
+            'tb_job_group' => 'required|string',
+            'tb_department' => 'required|string',
+            'tb_division' => 'required|string',
+            'tb_position' => 'required|string',
+            'tb_level' => 'required|string',
+            'tb_personnel_type' => 'required|string',
+            'tb_status' => 'required|in:0,1',
+            'tb_user_role' => 'nullable|in:1,2,3',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'กรุณากรอกชื่อ',
-            'email.required' => 'กรุณากรอกอีเมล',
-            'email.email' => 'รูปแบบอีเมลไม่ถูกต้อง',
-            'email.unique' => 'อีเมลนี้ถูกใช้ไปแล้ว',
-            'password.required' => 'กรุณากรอกรหัสผ่าน',
-            'password.min' => 'รหัสผ่านต้องอย่างน้อย 6 ตัว',
-            'password.confirmed' => 'ยืนยันรหัสผ่านไม่ตรงกัน',
+            'tb_username.required' => 'กรุณากรอกชื่อ',
+            'tb_email.required' => 'กรุณากรอกอีเมล',
+            'tb_email.email' => 'รูปแบบอีเมลไม่ถูกต้อง',
+            'tb_email.unique' => 'อีเมลนี้ถูกใช้ไปแล้ว',
+            'tb_password.required' => 'กรุณากรอกรหัสผ่าน',
+            'tb_password.min' => 'รหัสผ่านต้องอย่างน้อย 6 ตัว',
         ];
     }
 

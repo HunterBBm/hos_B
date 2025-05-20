@@ -67,6 +67,8 @@ $app->configure('session');
 
 $app->configure('jwt');
 
+$app->configure('auth'); 
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -87,6 +89,9 @@ $app->configure('jwt');
  ]);
 $app->middleware([
     Illuminate\Session\Middleware\StartSession::class,
+]);
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class,
 ]);
 
 
@@ -110,6 +115,7 @@ $app->register(Urameshibr\Providers\LumenFormRequestServiceProvider::class);
 $app->register(Illuminate\Session\SessionServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+class_alias(Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

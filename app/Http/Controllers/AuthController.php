@@ -13,13 +13,27 @@ class AuthController extends Controller
     //
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        try {
+            $credentials = $request->only(['email', 'password']);
+    
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'], 401);
+            }
 
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง'], 401);
-        }
+        $user = JWTAuth::user();
+        
+        return response()->json([
+            'token' => $token,
+            'name' => $user->name,
+            'email' => $user->email
+        ]);
 
-        return response()->json(['token' => $token]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'เกิดข้อผิดพลาดในระบบ',
+                    'message' => $e->getMessage()
+            ], 500);
+    }
     }
 
     public function me()
@@ -35,7 +49,11 @@ class AuthController extends Controller
             'password' => app('hash')->make($request->password),
         ]);
 
-        $token = JWTAuth::fromUser($user);
+        try {
+            $token = JWTAuth::fromUser($user);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'ไม่สามารถสร้าง token ได้', 'message' => $e->getMessage()], 500);
+        }
 
         return response()->json([
             'message' => 'สมัครสมาชิกสำเร็จ',
