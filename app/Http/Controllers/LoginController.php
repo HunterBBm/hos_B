@@ -37,6 +37,7 @@ class LoginController extends Controller
             ], 500);
         }
     }
+    //////////////////////////////////////////////////
     public function logout(Request $request)
     {
         try {
@@ -46,28 +47,53 @@ class LoginController extends Controller
             return response()->json(['error' => 'ไม่สามารถออกจากระบบได้'], 500);
         }
     }
+    //////////////////////////////////////////////////
     public function show(Request $request)
     {
         // ดึง user ทั้งหมด
         $users = User::all();
         return response()->json(['users' => $users]);
     }
+    //////////////////////////////////////////////////
     public function edit(Request $request)
     {
-
         //แก้ไขข้อมูลผู้ใช้
-        $token = JWTAuth::getToken();
-        $user = JWTAuth::user();
-        if (!$user) {
+        try {
+            $headers = $request->headers->all();
+            $token = JWTAuth::getToken();
+
+            try {
+                $payload = JWTAuth::getPayload($token)->toArray();
+                $userId = $payload['sub'];  // sub คือ user id ใน JWT payload
+                $user = User::find($userId);
+
+                if (!$user) {
+                    return response()->json([
+                        'error' => 'ไม่พบผู้ใช้',
+                        'token' => $token,
+                        'payload' => $payload,
+                        'headers' => $headers,
+                        'auth_header' => $request->header('Authorization')
+                    ], 404);
+                }
+
+                $user->update($request->all());
+                return response()->json(['message' => 'แก้ไขข้อมูลสำเร็จ', 'user' => $user]);
+            } catch (JWTException $e) {
+                return response()->json([
+                    'error' => 'Token ไม่ถูกต้อง',
+                    'message' => $e->getMessage()
+                ], 401);
+            }
+        } catch (\Exception $e) {
             return response()->json([
-                'error' => 'ไม่พบผู้ใช้',
-                'token' => $token,
-                'token_user' => JWTAuth::toUser($token)
-            ], 404);
+                'error' => 'เกิดข้อผิดพลาด',
+                'message' => $e->getMessage(),
+                'headers' => $headers ?? null
+            ], 500);
         }
-        $user->update($request->all());
-        return response()->json(['message' => 'แก้ไขข้อมูลสำเร็จ', 'user' => $user]);
     }
+    //////////////////////////////////////////////////
     public function delete(Request $request, $id)
     {
         //ลบข้อมูลผู้ใช้

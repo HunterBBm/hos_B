@@ -14,11 +14,10 @@ class RegisterController extends Controller
     {
         // เข้ารหัสรหัสผ่านด้วย Hash
         $hashedPassword = Hash::make($request->tb_password);
-        
         $user = User::create([
-            'tb_username' => $request->tb_username,
+            // 'tb_username' => $request->tb_username,
             'tb_email' => $request->tb_email,
-            'tb_password' => $request->tb_password,
+            'tb_password' => $hashedPassword,
             'tb_firstname' => $request->tb_firstname,
             'tb_lastname' => $request->tb_lastname,
             'tb_national_id' => $request->tb_national_id,
@@ -30,8 +29,8 @@ class RegisterController extends Controller
             'tb_position' => $request->tb_position,
             'tb_level' => $request->tb_level,
             'tb_personnel_type' => $request->tb_personnel_type,
-            'tb_status' => $request->input('tb_status', 1),
-            'tb_user_role' => $request->input('tb_user_role', 1),
+            'tb_status' => 1,  // default เป็น 1 เสมอสำหรับ user ใหม่
+            'tb_user_role' => 1,  // default เป็น 1 เสมอสำหรับ user ใหม่
         ]);
 
         try {
