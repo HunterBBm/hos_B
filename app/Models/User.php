@@ -17,10 +17,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     protected $table = 'tb_users';
 
+    // กำหนดค่า default สำหรับ user ใหม่
+    protected $attributes = [
+        'tb_status' => '1',
+        'tb_user_role' => '1'
+    ];
+
     protected $fillable = [
-        'tb_username',
-        'tb_email',
+        //'tb_username',
         'tb_password',
+        'tb_email',
         'tb_firstname',
         'tb_lastname',
         'tb_national_id',
@@ -46,41 +52,37 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'email' => $this->tb_email,
+            'user_role' => $this->tb_user_role
+        ];
     }
 
-    // Hash password ตอนบันทึก
-    public function setTbPasswordAttribute($value)
+    /**
+     * Get the name of the unique identifier for the user.
+     */
+    public function getAuthIdentifierName()
     {
-        $this->attributes['tb_password'] = Hash::make($value);
+        return 'id';
     }
 
-    // บอกว่า password อยู่ในฟิลด์นี้
+    /**
+     * Get the password for the user.
+     */
     public function getAuthPassword()
     {
         return $this->tb_password;
-    }
-
-    // บอก JWT ว่าใช้ tb_email ในการยืนยันตัวตน
-    public function getAuthIdentifierName()
+    }    // For JWT auth
+    public function username()
     {
         return 'tb_email';
     }
 
-    // เพิ่ม accessor ให้ JWT ใช้ 'email'
-    public function getEmailAttribute()
+    /**
+     * Find user by email for authentication
+     */
+    public function findForPassport($username)
     {
-        return $this->attributes['tb_email'];
-    }
-
-    // เพิ่ม accessor ให้ JWT ใช้ 'password'
-    public function getPasswordAttribute()
-    {
-        return $this->attributes['tb_password'];
-    }
-       // เพิ่มฟังก์ชันให้ JWT ใช้ tb_email แทน email
-    public function username()
-    {
-        return 'tb_email';  // บอกให้ JWT ใช้ tb_email แทน email
+        return $this->where('tb_email', $username)->first();
     }
 }

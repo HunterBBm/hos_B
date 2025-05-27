@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -24,10 +24,11 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
 $app->withEloquent();
 
-//$app->withBodyParsing();
+// Configure Auth
+$app->configure('auth');
+$app->configure('jwt');
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +68,7 @@ $app->configure('session');
 
 $app->configure('jwt');
 
-$app->configure('auth'); 
+$app->configure('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -84,9 +85,9 @@ $app->configure('auth');
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
- $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
- ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 $app->middleware([
     Illuminate\Session\Middleware\StartSession::class,
 ]);
@@ -130,7 +131,7 @@ class_alias(Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;

@@ -15,7 +15,6 @@ class RegisterController extends Controller
         // เข้ารหัสรหัสผ่านด้วย Hash
         $hashedPassword = Hash::make($request->tb_password);
         $user = User::create([
-            // 'tb_username' => $request->tb_username,
             'tb_email' => $request->tb_email,
             'tb_password' => $hashedPassword,
             'tb_firstname' => $request->tb_firstname,
@@ -29,8 +28,8 @@ class RegisterController extends Controller
             'tb_position' => $request->tb_position,
             'tb_level' => $request->tb_level,
             'tb_personnel_type' => $request->tb_personnel_type,
-            'tb_status' => 1,  // default เป็น 1 เสมอสำหรับ user ใหม่
-            'tb_user_role' => 1,  // default เป็น 1 เสมอสำหรับ user ใหม่
+            'tb_status' => '1',  // ใช้ string '1' เพราะเป็น enum
+            'tb_user_role' => '1'  // ใช้ string '1' เพราะเป็น enum
         ]);
 
         try {
@@ -41,10 +40,16 @@ class RegisterController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-
         return response()->json([
             'message' => 'สมัครสมาชิกสำเร็จ',
-            'tb_username' => $user->tb_username,
+            'user' => [
+                'tb_email' => $user->tb_email,
+                'tb_firstname' => $user->tb_firstname,
+                'tb_lastname' => $user->tb_lastname,
+                'tb_national_id' => $user->tb_national_id,
+                'tb_status' => $user->tb_status,  // จะเป็น 1 เสมอ
+                'tb_user_role' => $user->tb_user_role,  // จะเป็น 1 เสมอ
+            ],
             'token' => $token
         ], 201);
     }

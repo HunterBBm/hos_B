@@ -36,4 +36,5 @@ $router->group(['middleware' => 'auth:api'], function () use ($router) {
     $router->get('/show', 'LoginController@show');
     // Edit data route (PUT) for LoginController
     $router->put('/edit', 'LoginController@edit');
+    $router->put('/users/{id}', 'LoginController@edit');
 });
