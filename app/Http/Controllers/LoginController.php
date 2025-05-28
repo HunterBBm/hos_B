@@ -101,7 +101,7 @@ class LoginController extends Controller
             $user->tb_personnel_type = $request->input('personnel_type', $user->tb_personnel_type);
             $user->tb_status = $request->input('status', $user->tb_status);
             $user->tb_user_role = $request->input('user_role', $user->tb_user_role);            // Update password if provided
-            if ($request->has('password')) {
+            if ($request->filled('password')) {
                 $user->tb_password = Hash::make($request->input('password'));
             }
 
