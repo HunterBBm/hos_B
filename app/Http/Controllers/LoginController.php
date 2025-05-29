@@ -119,4 +119,21 @@ class LoginController extends Controller
             ], 500);
         }
     }
+    public function delete(Request $request, $id) //// ลบข้อมูลผู้ใช้ 
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();    // เดี๋ยวแก้ใหม่ให้ ย้ายข้อมูลไปเก็บที่อื่นก่อนลบ
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'ลบข้อมูลผู้ใช้สำเร็จ'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'เกิดข้อผิดพลาดในการลบข้อมูล',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
