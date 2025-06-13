@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('job_position', function (Blueprint $table) {
             $table->id();
-            $table->string('job_position');  //ตำแหน่งงาน
-            $table->string('status_position'); //
+            $table->string('job_position')->unique(); //ตำแหน่งงาน
+            $table->integer('status_position'); //สถานะตำแหน่งงาน เช่น 1 = รายวัน, 2 = ราชการ, 3 = กระทรวง
             $table->timestamps();
         });
     }
 
-    /**
+    /**s
      * Reverse the migrations.
      */
     public function down(): void

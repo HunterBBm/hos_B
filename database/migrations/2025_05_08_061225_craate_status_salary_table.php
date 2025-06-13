@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('status_salary', function (Blueprint $table) {
             $table->id();
-            $table->string('job_salary');  //ค่าตอบแทน
-            $table->string('status_salary');
+            $table->decimal('job_salary', 10, 2)->default(0.00)->unique();  //ค่าตอบแทน เป็นจำนวนเต็ม ไม่เอาทศนิยม
             $table->timestamps();
         });
     }

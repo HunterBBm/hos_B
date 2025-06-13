@@ -29,14 +29,19 @@ $router->post('/register', 'RegisterController@register');
 $router->post('/login', 'LoginController@login');
 
 // Routes ที่ต้อง login ก่อนถึงใช้ได้
+$router->post('/salary', 'SalaryController@createSalary'); // วางไว้ก่อน group
+
+$router->post('/job', 'JobController@createJob');
+
 $router->group(['middleware' => 'auth:api'], function () use ($router) {
-    $router->get('/me', 'AuthController@me');
-    $router->post('/test', 'TestController@handle');
-    // Show data route (GET) for LoginController
     $router->get('/show', 'LoginController@show');
-    // Edit data route (PUT) for LoginController
     $router->put('/edit', 'LoginController@edit');
     $router->put('/users/{id}', 'LoginController@edit');
-    // Delete data route (DELETE) for LoginController
     $router->delete('/users/{id}', 'LoginController@delete');
+    $router->post('/logout', 'LoginController@logout');
+    $router->get('/admin/data', 'DataController@index');
+
+    $router->get('/salary', 'SalaryController@showSalary');
+
+    $router->get('/job', 'JobController@showJobs');
 });

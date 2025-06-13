@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name_id');
             $table->date('date'); //วันที่เงินเดือนออก
             $table->unsignedTinyInteger('status_id')->default(1); //primarykey สำหรับเชื่อมกับตำแหน่งงาน
+
             $table->unsignedTinyInteger('leave_days')->default(0); //จำนวนวันหยุด
             $table->decimal('net_salary', 10, 2)->default(0.00); //เงินเดือน
             $table->decimal('arrears_salary', 10, 2)->default(0.00); //ตกเบิกเงินเดือน
@@ -42,8 +43,8 @@ return new class extends Migration
             $table->decimal('gsb_meechok', 10, 2)->default(0.00); //ออมสินมีโชค
             $table->decimal('student_loan_repayment', 10, 2)->default(0.00); //เงินกู้กยศ.
 
-          //  $table->decimal('gross_salary', 10, 2);  //เงินเดือนรวม
-            $table->timestamps(); 
+            //  $table->decimal('gross_salary', 10, 2);  //เงินเดือนรวม
+            $table->timestamps();
         });
     }
 
